@@ -1,10 +1,11 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { Base_Url } from '../utils/constant'
 import store from '../utils/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from '../utils/userSilce'
+import { Link } from 'react-router-dom'
 
 const SignUp = () => {
     const dispatch = useDispatch();
@@ -14,8 +15,13 @@ const SignUp = () => {
     const LastName = useRef(null);
     const email = useRef(null);
     const password = useRef(null);
+    const [errorMsg,setErrMsg] = useState("")
 
-    if(user) navigate("/");
+    useEffect(() => {
+            if (user) {
+                navigate("/");
+            }
+        }, [user, navigate]);
 
     async function handleLogin() {
         try {
@@ -32,6 +38,7 @@ const SignUp = () => {
             dispatch(addUser(res.data.data));
             navigate("/");
         } catch (error) {
+            setErrMsg(error.message)
             console.log(error);
         }
     }
@@ -54,9 +61,10 @@ const SignUp = () => {
                 <label htmlFor="password" className='mt-6'>Password : </label>
                 <input type="password" id="password" className='bg-base-100 h-12 p-3' placeholder="**********" ref={password} />
 
-
-                <div className="card-actions justify-end mt-6">
-                    <button className="btn btn-primary" onClick={handleLogin}>Login </button>
+                <p className='font-bold text-red-700'>{errorMsg}</p>
+                <div className="card-actions justify-between mt-6">
+                     <Link className="btn btn-primary" to='/Login'>Login </Link>
+                    <button className="btn btn-primary" onClick={handleLogin}>Sign up </button>
                 </div>
             </div>
         </div>
