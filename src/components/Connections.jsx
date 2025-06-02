@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import ConnectionCard from './connectionCard'
+import ConnectionCard from './ConnectionCard'
 import axios from 'axios'
 import { Base_Url } from '../utils/constant'
 import { useDispatch, useSelector } from 'react-redux'
